@@ -20,7 +20,7 @@ variable "bucket_suffix" {
 
 # S3 Bucket - using fixed name to prevent duplicates
 resource "aws_s3_bucket" "demo" {
-  bucket = "cloudburst-demo-coo-${random_id.bucket_id.hex}"
+  bucket ="cloudburst-demo-coo-new-${random_id.bucket_id.hex}"
   tags = {
     Name        = "CloudBurst Demo Bucket"
     Environment = "dev"
@@ -48,4 +48,8 @@ resource "aws_s3_bucket_versioning" "demo" {
 }
 resource "random_id" "bucket_id" {
   byte_length = 4
+
+  keepers = {
+    timestamp = timestamp()
+  }
 }
