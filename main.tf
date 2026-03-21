@@ -15,13 +15,12 @@ provider "aws" {
 variable "bucket_suffix" {
   description = "Unique suffix for bucket name (use your initials)"
   type        = string
-  default     = "coo-23"  # CHANGE THIS to your initials!
+  default     = "" #change this to your initials!
 }
 
 # S3 Bucket - using fixed name to prevent duplicates
 resource "aws_s3_bucket" "demo" {
-  bucket = "cloudburst-demo-${var.bucket_suffix}"
-
+  bucket ="cloudburst-demo-lucy-001"
   tags = {
     Name        = "CloudBurst Demo Bucket"
     Environment = "dev"
@@ -45,5 +44,12 @@ resource "aws_s3_bucket_versioning" "demo" {
   bucket = aws_s3_bucket.demo.id
   versioning_configuration {
     status = "Enabled"
+  }
+}
+resource "random_id" "bucket_id" {
+  byte_length = 4
+
+  keepers = {
+    timestamp = timestamp()
   }
 }
